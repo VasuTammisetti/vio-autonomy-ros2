@@ -1,0 +1,22 @@
+# ROS2 / colcon
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Model weights (document downloads in README instead)
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
