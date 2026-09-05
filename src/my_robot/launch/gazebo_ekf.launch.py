@@ -36,6 +36,7 @@ def generate_launch_description():
 
     bridge = Node(
         package='ros_gz_bridge', executable='parameter_bridge',
+        parameters=[{'use_sim_time': True}],
         arguments=[
             '/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
             '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
