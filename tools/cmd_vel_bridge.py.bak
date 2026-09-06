@@ -19,7 +19,7 @@ from rclpy.parameter import Parameter
 from geometry_msgs.msg import Twist, TwistStamped
 
 OUT_TOPIC = "/diff_drive_controller/cmd_vel"
-IN_TOPIC = "/cmd_vel_safe"
+IN_TOPIC = "/cmd_vel"
 FRAME_ID = "base_link"
 
 
