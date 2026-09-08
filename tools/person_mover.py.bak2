@@ -16,9 +16,9 @@ NAME = "person_standing"
 
 # Walk the person back and forth through the room centre.
 # Default: move along X (front-back) at y=0, through the open middle.
-WALK_AXIS = "y"        # "x" = walk front/back, "y" = walk left/right
-CENTER = 1.2           # fixed coordinate on the OTHER axis (keep in open space)
-AMPLITUDE = 1.5        # how far each way from centre (keep inside walls ~<2.5)
+WALK_AXIS = "x"        # "x" = walk front/back, "y" = walk left/right
+CENTER = 0.0           # fixed coordinate on the OTHER axis (keep in open space)
+AMPLITUDE = 1.8        # how far each way from centre (keep inside walls ~<2.5)
 PERIOD = 10.0          # seconds per full back-and-forth
 RATE_HZ = 20.0
 
