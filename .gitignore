@@ -20,3 +20,5 @@ venv/
 .idea/
 *.swp
 .DS_Store
+*.bak
+*.bak2
