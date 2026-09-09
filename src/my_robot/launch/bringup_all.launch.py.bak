@@ -31,7 +31,7 @@ HOME = "/home/vasu0/autonomy"
 LAUNCH = f"{HOME}/src/my_robot/launch"
 TOOLS = f"{HOME}/tools"
 PARAMS = f"{HOME}/src/my_robot/config/nav2_params.yaml"
-MAP = f"{HOME}/room_map_big_serial"
+MAP = f"{HOME}/room_map_serial"
 RVIZ = "/opt/ros/jazzy/share/nav2_bringup/rviz/nav2_default_view.rviz"
 NAV2_NODES = ["controller_server", "planner_server", "behavior_server", "bt_navigator"]
 
