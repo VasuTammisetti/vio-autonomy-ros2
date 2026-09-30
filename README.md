@@ -131,6 +131,5 @@ tools/                  world_model_node.py           <- predictive world model 
 
 ## A note on the simulation
 
-The perception node uses YOLOv8n on the camera feed. YOLO is trained on real-world photographs, and detection on a synthetic Gazebo human model is unreliable, so for validating the **world-model, planning, and safety** layers in simulation, the tracked person's position is supplied from Gazebo ground truth (`person_publisher.py`) in the same message format the fusion node produces. This isolates those components from simulator-perception noise and lets them be tested against known input. In a real deployment the same `/fused_objects` interface is fed by the camera-LiDAR fusion node.
+The perception node uses YOLOv8n on the camera feed. YOLO is trained on real-world photographs, and detection on a synthetic Gazebo human model is unreliable, so for validating the **world-model, planning, and safety** layers in simulation, the tracked person's position is supplied from Gazebo ground truth (`person_publisher.py`) in the same message format the fusion node produces. This isolates those components from simulator-perception noise and lets them be tested against known input. In a real deployment, the same `/fused_objects` interface is fed by the camera-LiDAR fusion node.
 
-This is a simulation and research demonstrator, not certified robotics software.
