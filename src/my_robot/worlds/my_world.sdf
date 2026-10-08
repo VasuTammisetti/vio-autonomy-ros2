@@ -39,25 +39,25 @@
     <model name="wall_north"><static>true</static><pose>0 6 0.5 0 0 0</pose><link name="link">
       <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
       <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>0.7 0.3 0.3 1</ambient><diffuse>0.7 0.3 0.3 1</diffuse></material></visual>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_north.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
     <model name="wall_south"><static>true</static><pose>0 -6 0.5 0 0 0</pose><link name="link">
       <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
       <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>0.7 0.3 0.3 1</ambient><diffuse>0.7 0.3 0.3 1</diffuse></material></visual>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_south.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
     <model name="wall_east"><static>true</static><pose>6 0 0.5 0 0 1.5708</pose><link name="link">
       <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
       <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>0.3 0.3 0.7 1</ambient><diffuse>0.3 0.3 0.7 1</diffuse></material></visual>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_east.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
     <model name="wall_west"><static>true</static><pose>-6 0 0.5 0 0 1.5708</pose><link name="link">
       <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
       <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>0.3 0.3 0.7 1</ambient><diffuse>0.3 0.3 0.7 1</diffuse></material></visual>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_west.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
     <include>
@@ -66,5 +66,16 @@
       <pose>3.5 3.5 0 0 0 3.14159</pose>
     </include>
 
+  
+    <model name="vio_floor">
+      <static>true</static>
+      <pose>0 0 0.001 0 0 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><box><size>11.9 11.9 0.002</size></box></geometry>
+          <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/floor.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material>
+        </visual>
+      </link>
+    </model>
   </world>
 </sdf>
