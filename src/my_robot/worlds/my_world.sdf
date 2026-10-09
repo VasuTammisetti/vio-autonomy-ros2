@@ -36,205 +36,290 @@
       </link>
     </model>
 
-    <model name="wall_north"><static>true</static><pose>0 6 0.5 0 0 0</pose><link name="link">
-      <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
-      <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_panel_north.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+    <model name="wall_north"><static>true</static><pose>0.000 7.550 1.250 0 0 0.0000</pose><link name="link">
+      <collision name="c"><geometry><box><size>20.200 0.100 2.500</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>20.200 0.100 2.500</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/hall_wall_north.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
-    <model name="wall_south"><static>true</static><pose>0 -6 0.5 0 0 0</pose><link name="link">
-      <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
-      <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_panel_south.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+    <model name="wall_south"><static>true</static><pose>0.000 -7.550 1.250 0 0 0.0000</pose><link name="link">
+      <collision name="c"><geometry><box><size>20.200 0.100 2.500</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>20.200 0.100 2.500</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/hall_wall_south.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
-    <model name="wall_east"><static>true</static><pose>6 0 0.5 0 0 1.5708</pose><link name="link">
-      <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
-      <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_panel_east.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+    <model name="wall_east"><static>true</static><pose>10.050 0.000 1.250 0 0 1.5708</pose><link name="link">
+      <collision name="c"><geometry><box><size>15.200 0.100 2.500</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>15.200 0.100 2.500</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/hall_wall_east.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
-    <model name="wall_west"><static>true</static><pose>-6 0 0.5 0 0 1.5708</pose><link name="link">
-      <collision name="c"><geometry><box><size>12 0.1 1</size></box></geometry></collision>
-      <visual name="v"><geometry><box><size>12 0.1 1</size></box></geometry>
-        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/wall_panel_west.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+    <model name="wall_west"><static>true</static><pose>-10.050 0.000 1.250 0 0 1.5708</pose><link name="link">
+      <collision name="c"><geometry><box><size>15.200 0.100 2.500</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>15.200 0.100 2.500</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/hall_wall_west.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
     </link></model>
 
     <include>
       <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
       <name>person_standing</name>
-      <pose>3.5 3.5 0 0 0 3.14159</pose>
+      <pose>2.50 5.60 0 0 0 0</pose>
     </include>
-    <model name="vio_floor">
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>ped_2</name>
+      <pose>-2.80 4.60 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Standing person</uri>
+      <name>ped_3</name>
+      <pose>-8.30 5.70 0 0 0 0</pose>
+    </include>
+    <model name="hall_floor">
       <static>true</static>
-      <pose>0 0 0.001 0 0 0</pose>
+      <pose>0.000 0.000 0 0 0 0.0000</pose>
       <link name="link">
-        <visual name="v"><geometry><box><size>11.9 11.9 0.002</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/floor_concrete.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_f"><pose>0.000 0.000 0.001 0 0 0.0000</pose><geometry><box><size>19.900 14.900 0.002</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/hall_floor.jpg</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
       </link>
     </model>
-    <model name="prop_n1">
+    <model name="fac_markings">
       <static>true</static>
-      <pose>-4.000 5.300 0 0 0 0.0000</pose>
+      <pose>0.000 0.000 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_aisle_w0"><pose>-4.025 1.800 0.004 0 0 0.0000</pose><geometry><box><size>10.950 0.080 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_aisle_e0"><pose>6.525 1.800 0.004 0 0 0.0000</pose><geometry><box><size>5.950 0.080 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_aisle_w1"><pose>-4.025 -1.800 0.004 0 0 0.0000</pose><geometry><box><size>10.950 0.080 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_aisle_e1"><pose>6.525 -1.800 0.004 0 0 0.0000</pose><geometry><box><size>5.950 0.080 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_zebra0"><pose>2.500 -1.400 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.400 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_zebra1"><pose>2.500 -0.600 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.400 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_zebra2"><pose>2.500 0.200 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.400 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_zebra3"><pose>2.500 1.000 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.400 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_stop0"><pose>0.900 0.000 0.004 0 0 1.5708</pose><geometry><box><size>3.500 0.140 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_stop1"><pose>4.100 0.000 0.004 0 0 1.5708</pose><geometry><box><size>3.500 0.140 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_n0"><pose>1.500 4.350 0.004 0 0 1.5708</pose><geometry><box><size>5.100 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_m0"><pose>1.500 -2.200 0.004 0 0 -1.5708</pose><geometry><box><size>0.800 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_s0"><pose>1.500 -4.425 0.004 0 0 -1.5708</pose><geometry><box><size>1.250 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_n1"><pose>3.500 4.350 0.004 0 0 1.5708</pose><geometry><box><size>5.100 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_m1"><pose>3.500 -2.200 0.004 0 0 -1.5708</pose><geometry><box><size>0.800 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_walk_s1"><pose>3.500 -4.425 0.004 0 0 -1.5708</pose><geometry><box><size>1.250 0.070 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_0"><pose>-8.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_1"><pose>-7.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_2"><pose>-6.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_3"><pose>-5.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_4"><pose>-4.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_5"><pose>-3.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_6"><pose>-2.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_7"><pose>-1.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_8"><pose>-0.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_9"><pose>0.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_10"><pose>1.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_12"><pose>3.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_13"><pose>4.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_14"><pose>5.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_15"><pose>6.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_16"><pose>7.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_17"><pose>8.500 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l0_18"><pose>9.300 -2.600 0.004 0 0 0.0000</pose><geometry><box><size>0.200 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_0"><pose>-8.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_1"><pose>-7.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_2"><pose>-6.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_3"><pose>-5.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_4"><pose>-4.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_5"><pose>-3.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_6"><pose>-2.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_7"><pose>-1.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_8"><pose>-0.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_9"><pose>0.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_10"><pose>1.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_12"><pose>3.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_13"><pose>4.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_14"><pose>5.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_15"><pose>6.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_16"><pose>7.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_17"><pose>8.500 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.600 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_l1_18"><pose>9.300 -3.800 0.004 0 0 0.0000</pose><geometry><box><size>0.200 0.070 0.003</size></box></geometry><material><ambient>0.95 0.45 0.08 1</ambient><diffuse>0.95 0.45 0.08 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_zebra0"><pose>2.500 -3.600 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.220 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_zebra1"><pose>2.500 -3.200 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.220 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cart_zebra2"><pose>2.500 -2.800 0.004 0 0 0.0000</pose><geometry><box><size>2.000 0.220 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bay0"><pose>3.000 -6.225 0.004 0 0 1.5708</pose><geometry><box><size>2.450 0.100 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bay1"><pose>5.000 -6.225 0.004 0 0 1.5708</pose><geometry><box><size>2.450 0.100 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bay2"><pose>7.000 -6.225 0.004 0 0 1.5708</pose><geometry><box><size>2.450 0.100 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bay3"><pose>9.000 -6.225 0.004 0 0 1.5708</pose><geometry><box><size>2.450 0.100 0.003</size></box></geometry><material><ambient>0.93 0.93 0.90 1</ambient><diffuse>0.93 0.93 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bay_front"><pose>6.000 -5.000 0.004 0 0 0.0000</pose><geometry><box><size>6.000 0.060 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_chg0"><pose>9.075 3.900 0.004 0 0 0.0000</pose><geometry><box><size>1.750 0.080 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_chg1"><pose>9.075 5.100 0.004 0 0 0.0000</pose><geometry><box><size>1.750 0.080 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_chg2"><pose>8.200 4.500 0.004 0 0 1.5708</pose><geometry><box><size>1.200 0.080 0.003</size></box></geometry><material><ambient>0.15 0.60 0.30 1</ambient><diffuse>0.15 0.60 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cell_n"><pose>-8.275 -4.200 0.004 0 0 0.0000</pose><geometry><box><size>3.350 0.100 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_cell_e"><pose>-6.600 -5.825 0.004 0 0 -1.5708</pose><geometry><box><size>3.250 0.100 0.003</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+      </link>
+    </model>
+    <model name="fac_bench_1">
+      <static>true</static>
+      <pose>-8.300 7.020 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_cab"><pose>0.000 0.000 0.420 0 0 0.0000</pose><geometry><box><size>1.800 0.720 0.840</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/bench_front.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_cab"><pose>0.000 0.000 0.420 0 0 0.0000</pose><geometry><box><size>1.800 0.720 0.840</size></box></geometry></collision>
+        <visual name="v_top"><pose>0.000 0.000 0.865 0 0 0.0000</pose><geometry><box><size>1.900 0.800 0.050</size></box></geometry><material><ambient>0.62 0.48 0.32 1</ambient><diffuse>0.62 0.48 0.32 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mon"><pose>-0.300 0.200 1.120 0 0 0.0000</pose><geometry><box><size>0.550 0.050 0.340</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mon_st"><pose>-0.300 0.250 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 0.120</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bin1"><pose>0.450 0.050 0.940 0 0 0.0000</pose><geometry><box><size>0.300 0.200 0.120</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bin2"><pose>0.750 0.050 0.940 0 0 0.0000</pose><geometry><box><size>0.250 0.200 0.120</size></box></geometry><material><ambient>0.80 0.15 0.15 1</ambient><diffuse>0.80 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_board"><pose>0.000 0.370 1.450 0 0 0.0000</pose><geometry><box><size>1.700 0.030 0.600</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+      </link>
+    </model>
+    <model name="fac_bench_2">
+      <static>true</static>
+      <pose>-6.200 7.020 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_cab"><pose>0.000 0.000 0.420 0 0 0.0000</pose><geometry><box><size>1.800 0.720 0.840</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/bench_front.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_cab"><pose>0.000 0.000 0.420 0 0 0.0000</pose><geometry><box><size>1.800 0.720 0.840</size></box></geometry></collision>
+        <visual name="v_top"><pose>0.000 0.000 0.865 0 0 0.0000</pose><geometry><box><size>1.900 0.800 0.050</size></box></geometry><material><ambient>0.62 0.48 0.32 1</ambient><diffuse>0.62 0.48 0.32 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mon"><pose>-0.300 0.200 1.120 0 0 0.0000</pose><geometry><box><size>0.550 0.050 0.340</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mon_st"><pose>-0.300 0.250 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 0.120</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bin1"><pose>0.450 0.050 0.940 0 0 0.0000</pose><geometry><box><size>0.300 0.200 0.120</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bin2"><pose>0.750 0.050 0.940 0 0 0.0000</pose><geometry><box><size>0.250 0.200 0.120</size></box></geometry><material><ambient>0.80 0.15 0.15 1</ambient><diffuse>0.80 0.15 0.15 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_board"><pose>0.000 0.370 1.450 0 0 0.0000</pose><geometry><box><size>1.700 0.030 0.600</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+      </link>
+    </model>
+    <model name="fac_rack_p4">
+      <static>true</static>
+      <pose>-0.500 7.140 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_up0_0"><pose>-1.500 -0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up0_1"><pose>-1.500 0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up1_0"><pose>-0.500 -0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up1_1"><pose>-0.500 0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up2_0"><pose>0.500 -0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up2_1"><pose>0.500 0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up3_0"><pose>1.500 -0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_up3_1"><pose>1.500 0.270 1.000 0 0 0.0000</pose><geometry><box><size>0.060 0.060 2.000</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_beam0"><pose>0.000 -0.270 0.180 0 0 0.0000</pose><geometry><box><size>3.000 0.060 0.100</size></box></geometry><material><ambient>0.95 0.50 0.10 1</ambient><diffuse>0.95 0.50 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_deck0"><pose>0.000 0.000 0.240 0 0 0.0000</pose><geometry><box><size>3.000 0.600 0.020</size></box></geometry><material><ambient>0.45 0.47 0.50 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bx0_0"><pose>-1.125 0.000 0.430 0 0 0.0000</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx0_1"><pose>-0.510 0.000 0.400 0 0 0.0000</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx0_3"><pose>0.575 0.000 0.430 0 0 0.0000</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx0_4"><pose>1.080 0.000 0.380 0 0 0.0000</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_beam1"><pose>0.000 -0.270 0.850 0 0 0.0000</pose><geometry><box><size>3.000 0.060 0.100</size></box></geometry><material><ambient>0.95 0.50 0.10 1</ambient><diffuse>0.95 0.50 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_deck1"><pose>0.000 0.000 0.910 0 0 0.0000</pose><geometry><box><size>3.000 0.600 0.020</size></box></geometry><material><ambient>0.45 0.47 0.50 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bx1_1"><pose>-0.560 0.000 1.120 0 0 0.0000</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx1_2"><pose>-0.050 0.000 1.140 0 0 0.0000</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx1_3"><pose>0.460 0.000 1.120 0 0 0.0000</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx1_4"><pose>0.995 0.000 1.100 0 0 0.0000</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_beam2"><pose>0.000 -0.270 1.500 0 0 0.0000</pose><geometry><box><size>3.000 0.060 0.100</size></box></geometry><material><ambient>0.95 0.50 0.10 1</ambient><diffuse>0.95 0.50 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_deck2"><pose>0.000 0.000 1.560 0 0 0.0000</pose><geometry><box><size>3.000 0.600 0.020</size></box></geometry><material><ambient>0.45 0.47 0.50 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_bx2_0"><pose>-1.125 0.000 1.750 0 0 0.0000</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx2_2"><pose>0.050 0.000 1.790 0 0 0.0000</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_bx2_3"><pose>0.625 0.000 1.750 0 0 0.0000</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <visual name="v_kick"><pose>0.000 -0.290 0.120 0 0 0.0000</pose><geometry><box><size>3.000 0.020 0.240</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <collision name="c_rack"><pose>0.000 0.000 1.000 0 0 0.0000</pose><geometry><box><size>3.000 0.600 2.000</size></box></geometry></collision>
+      </link>
+    </model>
+    <model name="fac_robot_cell">
+      <static>true</static>
+      <pose>0.000 0.000 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_kick0"><pose>-7.000 -6.025 0.200 0 0 1.5708</pose><geometry><box><size>2.850 0.040 0.300</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mesh0"><pose>-7.000 -6.025 1.100 0 0 1.5708</pose><geometry><box><size>2.850 0.020 1.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/fence_mesh.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_fcol0"><pose>-7.000 -6.025 0.900 0 0 1.5708</pose><geometry><box><size>2.850 0.060 1.800</size></box></geometry></collision>
+        <visual name="v_post0_0"><pose>-7.000 -7.450 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post0_1"><pose>-7.000 -6.500 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post0_2"><pose>-7.000 -5.550 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post0_3"><pose>-7.000 -4.600 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_kick1"><pose>-8.475 -4.600 0.200 0 0 0.0000</pose><geometry><box><size>2.950 0.040 0.300</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mesh1"><pose>-8.475 -4.600 1.100 0 0 0.0000</pose><geometry><box><size>2.950 0.020 1.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/fence_mesh.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_fcol1"><pose>-8.475 -4.600 0.900 0 0 0.0000</pose><geometry><box><size>2.950 0.060 1.800</size></box></geometry></collision>
+        <visual name="v_post1_0"><pose>-9.950 -4.600 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post1_1"><pose>-8.967 -4.600 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post1_2"><pose>-7.983 -4.600 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_post1_3"><pose>-7.000 -4.600 0.950 0 0 0.0000</pose><geometry><box><size>0.060 0.060 1.900</size></box></geometry><material><ambient>0.90 0.72 0.10 1</ambient><diffuse>0.90 0.72 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_ped"><pose>-8.600 -6.100 0.400 0 0 0</pose><geometry><cylinder><radius>0.220</radius><length>0.800</length></cylinder></geometry><material><ambient>0.45 0.47 0.50 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_j1"><pose>-8.600 -6.100 0.880 0 0 0</pose><geometry><cylinder><radius>0.160</radius><length>0.160</length></cylinder></geometry><material><ambient>0.95 0.50 0.10 1</ambient><diffuse>0.95 0.50 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_l1"><pose>-8.350 -6.100 1.050 0 0 0.0000</pose><geometry><box><size>0.600 0.140 0.140</size></box></geometry><material><ambient>0.90 0.90 0.90 1</ambient><diffuse>0.90 0.90 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_l2"><pose>-8.050 -5.950 0.850 0 0 0.0000</pose><geometry><box><size>0.120 0.120 0.450</size></box></geometry><material><ambient>0.90 0.90 0.90 1</ambient><diffuse>0.90 0.90 0.90 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_tbl"><pose>-8.000 -5.500 0.400 0 0 0.0000</pose><geometry><box><size>0.900 0.600 0.800</size></box></geometry><material><ambient>0.45 0.47 0.50 1</ambient><diffuse>0.45 0.47 0.50 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+      </link>
+    </model>
+    <model name="fac_dock">
+      <static>true</static>
+      <pose>9.750 4.500 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_body"><pose>0.000 0.000 0.250 0 0 0.0000</pose><geometry><box><size>0.400 0.800 0.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/dock.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_body"><pose>0.000 0.000 0.250 0 0 0.0000</pose><geometry><box><size>0.400 0.800 0.500</size></box></geometry></collision>
+        <visual name="v_led"><pose>-0.205 0.000 0.420 0 0 0.0000</pose><geometry><box><size>0.010 0.600 0.040</size></box></geometry><material><ambient>0.20 0.95 0.40 1</ambient><diffuse>0.20 0.95 0.40 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+      </link>
+    </model>
+    <model name="fac_pillar_1">
+      <static>true</static>
+      <pose>-4.500 2.600 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pillar_C2.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry></collision>
+      </link>
+    </model>
+    <model name="fac_pillar_2">
+      <static>true</static>
+      <pose>5.500 2.600 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pillar_C5.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry></collision>
+      </link>
+    </model>
+    <model name="fac_pillar_3">
+      <static>true</static>
+      <pose>0.000 -5.600 0 0 0 0.0000</pose>
+      <link name="link">
+        <visual name="v_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pillar_D3.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_p"><pose>0.000 0.000 1.250 0 0 0.0000</pose><geometry><box><size>0.500 0.500 2.500</size></box></geometry></collision>
+      </link>
+    </model>
+    <model name="fac_bay2">
+      <static>true</static>
+      <pose>6.000 -6.400 0 0 0 0.0000</pose>
       <link name="link">
         <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.302 0.014 0.274 0 0 0.032</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.302 0.014 0.274 0 0 0.032</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-        <visual name="v_box1"><pose>0.310 0.011 0.294 0 0 -0.060</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>0.310 0.011 0.294 0 0 -0.060</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
+        <visual name="v_box0"><pose>-0.293 0.010 0.324 0 0 0.075</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box0"><pose>-0.293 0.010 0.324 0 0 0.075</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
+        <visual name="v_box1"><pose>-0.305 -0.001 0.704 0 0 -0.050</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box1"><pose>-0.305 -0.001 0.704 0 0 -0.050</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
+        <visual name="v_box2"><pose>0.289 0.007 0.274 0 0 -0.010</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box2"><pose>0.289 0.007 0.274 0 0 -0.010</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
       </link>
     </model>
-    <model name="prop_n2">
+    <model name="fac_bay3">
       <static>true</static>
-      <pose>-1.200 5.300 0 0 0 0.0000</pose>
+      <pose>8.000 -6.400 0 0 0 0.0000</pose>
       <link name="link">
         <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
         <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.305 0.017 0.294 0 0 0.023</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.305 0.017 0.294 0 0 0.023</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.302 -0.011 0.664 0 0 0.009</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.302 -0.011 0.664 0 0 0.009</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
-        <visual name="v_box2"><pose>-0.287 0.005 1.064 0 0 0.041</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>-0.287 0.005 1.064 0 0 0.041</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.316 0.011 0.324 0 0 -0.049</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.316 0.011 0.324 0 0 -0.049</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box4"><pose>0.282 -0.014 0.704 0 0 0.029</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box4"><pose>0.282 -0.014 0.704 0 0 0.029</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
+        <visual name="v_box0"><pose>-0.292 -0.008 0.364 0 0 0.053</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box0"><pose>-0.292 -0.008 0.364 0 0 0.053</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
+        <visual name="v_box1"><pose>0.292 0.007 0.364 0 0 -0.058</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box1"><pose>0.292 0.007 0.364 0 0 -0.058</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
+        <visual name="v_box2"><pose>0.280 0.011 0.804 0 0 0.026</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box2"><pose>0.280 0.011 0.804 0 0 0.026</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
+        <visual name="v_box3"><pose>0.311 -0.002 1.174 0 0 0.011</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_box3"><pose>0.311 -0.002 1.174 0 0 0.011</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
       </link>
     </model>
-    <model name="prop_n3">
+    <model name="cart">
       <static>true</static>
-      <pose>1.800 5.350 0 0 0 0.0000</pose>
+      <pose>-7.800 -3.200 0 0 0 0.0000</pose>
       <link name="link">
-        <visual name="v_box0"><pose>-0.331 0.043 0.130 0 0 -0.021</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.331 0.043 0.130 0 0 -0.021</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.362 0.035 0.410 0 0 -0.004</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.362 0.035 0.410 0 0 -0.004</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box2"><pose>0.247 -0.037 0.150 0 0 0.032</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>0.247 -0.037 0.150 0 0 0.032</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.763 0.092 0.200 0 0 -0.018</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.763 0.092 0.200 0 0 -0.018</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_s1">
-      <static>true</static>
-      <pose>-3.800 -5.300 0 0 0 0.0000</pose>
-      <link name="link">
-        <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.314 -0.012 0.344 0 0 -0.079</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.314 -0.012 0.344 0 0 -0.079</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box1"><pose>0.307 0.008 0.274 0 0 0.045</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>0.307 0.008 0.274 0 0 0.045</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-        <visual name="v_box2"><pose>0.303 -0.014 0.554 0 0 -0.062</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>0.303 -0.014 0.554 0 0 -0.062</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.299 0.003 0.834 0 0 0.042</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.299 0.003 0.834 0 0 0.042</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_s2">
-      <static>true</static>
-      <pose>-0.600 -5.300 0 0 0 0.0000</pose>
-      <link name="link">
-        <visual name="v_box0"><pose>-0.348 0.042 0.150 0 0 -0.075</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.348 0.042 0.150 0 0 -0.075</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.361 0.046 0.500 0 0 0.057</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.361 0.046 0.500 0 0 0.057</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box2"><pose>0.232 -0.059 0.200 0 0 -0.033</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>0.232 -0.059 0.200 0 0 -0.033</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.761 0.087 0.180 0 0 -0.015</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.761 0.087 0.180 0 0 -0.015</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box4"><pose>0.737 0.061 0.510 0 0 -0.066</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box4"><pose>0.737 0.061 0.510 0 0 -0.066</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_s3">
-      <static>true</static>
-      <pose>3.600 -5.300 0 0 0 0.0000</pose>
-      <link name="link">
-        <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.302 -0.014 0.274 0 0 0.000</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.302 -0.014 0.274 0 0 0.000</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.292 -0.002 0.584 0 0 -0.019</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.292 -0.002 0.584 0 0 -0.019</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box2"><pose>-0.295 -0.006 0.964 0 0 -0.066</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>-0.295 -0.006 0.964 0 0 -0.066</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.316 0.008 0.344 0 0 -0.037</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.316 0.008 0.344 0 0 -0.037</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_w1">
-      <static>true</static>
-      <pose>-5.300 -2.200 0 0 0 1.5708</pose>
-      <link name="link">
-        <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.289 0.009 0.364 0 0 -0.008</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.289 0.009 0.364 0 0 -0.008</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.316 0.016 0.784 0 0 -0.007</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.316 0.016 0.784 0 0 -0.007</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box2"><pose>-0.308 0.003 1.184 0 0 -0.052</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>-0.308 0.003 1.184 0 0 -0.052</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.309 -0.003 0.324 0 0 0.020</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.309 -0.003 0.324 0 0 0.020</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box4"><pose>0.306 -0.017 0.684 0 0 -0.013</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box4"><pose>0.306 -0.017 0.684 0 0 -0.013</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box5"><pose>0.300 -0.007 0.994 0 0 -0.057</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box5"><pose>0.300 -0.007 0.994 0 0 -0.057</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_w2">
-      <static>true</static>
-      <pose>-5.300 1.600 0 0 0 1.5708</pose>
-      <link name="link">
-        <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.296 -0.013 0.324 0 0 0.068</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.296 -0.013 0.324 0 0 0.068</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box1"><pose>-0.306 0.004 0.654 0 0 -0.076</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>-0.306 0.004 0.654 0 0 -0.076</pose><geometry><box><size>0.580 0.400 0.300</size></box></geometry></collision>
-        <visual name="v_box2"><pose>-0.301 0.011 1.024 0 0 -0.067</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>-0.301 0.011 1.024 0 0 -0.067</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
-        <visual name="v_box3"><pose>0.318 0.003 0.274 0 0 -0.004</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_b.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box3"><pose>0.318 0.003 0.274 0 0 -0.004</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
-        <visual name="v_box4"><pose>0.293 0.001 0.624 0 0 -0.010</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box4"><pose>0.293 0.001 0.624 0 0 -0.010</pose><geometry><box><size>0.500 0.360 0.440</size></box></geometry></collision>
-      </link>
-    </model>
-    <model name="prop_e1">
-      <static>true</static>
-      <pose>5.300 -2.600 0 0 0 1.5708</pose>
-      <link name="link">
-        <visual name="v_deck"><pose>0.000 0.000 0.129 0 0 0.000</pose><geometry><box><size>1.200 0.800 0.030</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run0"><pose>0.000 -0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run1"><pose>0.000 0.000 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <visual name="v_run2"><pose>0.000 0.350 0.057 0 0 0.000</pose><geometry><box><size>1.200 0.100 0.114</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/pallet_wood.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_pallet"><pose>0 0 0.072 0 0 0</pose><geometry><box><size>1.2 0.8 0.144</size></box></geometry></collision>
-        <visual name="v_box0"><pose>-0.287 0.016 0.324 0 0 -0.058</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box0"><pose>-0.287 0.016 0.324 0 0 -0.058</pose><geometry><box><size>0.550 0.380 0.360</size></box></geometry></collision>
-        <visual name="v_box1"><pose>0.307 -0.009 0.344 0 0 0.026</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_a.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box1"><pose>0.307 -0.009 0.344 0 0 0.026</pose><geometry><box><size>0.420 0.420 0.400</size></box></geometry></collision>
-        <visual name="v_box2"><pose>0.311 -0.016 0.674 0 0 0.067</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/box_c.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
-        <collision name="c_box2"><pose>0.311 -0.016 0.674 0 0 0.067</pose><geometry><box><size>0.360 0.300 0.260</size></box></geometry></collision>
+        <visual name="v_body"><pose>0.000 0.000 0.200 0 0 0.0000</pose><geometry><box><size>1.000 0.620 0.360</size></box></geometry><material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse><specular>0.05 0.05 0.05 1</specular><pbr><metal><albedo_map>textures/cart_body.png</albedo_map><roughness>0.9</roughness><metalness>0.0</metalness></metal></pbr></material></visual>
+        <collision name="c_body"><pose>0.000 0.000 0.200 0 0 0.0000</pose><geometry><box><size>1.000 0.620 0.360</size></box></geometry></collision>
+        <visual name="v_deck"><pose>0.000 0.000 0.400 0 0 0.0000</pose><geometry><box><size>1.020 0.640 0.040</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_tote1"><pose>-0.220 0.000 0.560 0 0 0.0000</pose><geometry><box><size>0.500 0.360 0.280</size></box></geometry><material><ambient>0.12 0.35 0.70 1</ambient><diffuse>0.12 0.35 0.70 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_tote2"><pose>0.280 0.000 0.560 0 0 0.0000</pose><geometry><box><size>0.400 0.360 0.280</size></box></geometry><material><ambient>0.15 0.55 0.30 1</ambient><diffuse>0.15 0.55 0.30 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_mast"><pose>-0.450 0.000 0.750 0 0 0.0000</pose><geometry><box><size>0.060 0.060 0.700</size></box></geometry><material><ambient>0.12 0.12 0.13 1</ambient><diffuse>0.12 0.12 0.13 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <visual name="v_lamp"><pose>-0.450 0.000 1.120 0 0 0.0000</pose><geometry><box><size>0.100 0.100 0.060</size></box></geometry><material><ambient>1.00 0.55 0.10 1</ambient><diffuse>1.00 0.55 0.10 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+        <collision name="c_load"><pose>0.000 0.000 0.550 0 0 0.0000</pose><geometry><box><size>1.000 0.620 0.300</size></box></geometry></collision>
       </link>
     </model>
   </world>

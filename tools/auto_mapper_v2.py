@@ -5,10 +5,10 @@ steering away from obstacles with the LiDAR (safe with box stacks and pallets in
 
 Compared with auto_mapper.py:
   - reads /scan and turns away when anything is closer than SAFE_DIST in front
-  - moves the person out of the room before mapping and puts it back afterwards,
-    so the person is not mapped as a permanent obstacle
-  - ramps speed up and down (no hard stops), so the robot does not rock on its caster.
-    Rocking tilts the LiDAR into the floor and draws false black streaks in the map.
+  - parks all moving agents (people, cart; see factory_layout.py) outside the hall before mapping,
+    so they are not mapped as permanent obstacles. Start tools/sim_agents.py afterwards to bring them back.
+  - ramps speed up and down (no hard stops) and turns gently, which gives SLAM cleaner, better
+    overlapping scans
   - counts DURATION in simulation time, so coverage is the same at any Gazebo speed
   - stops cleanly (zero velocity) when done or on Ctrl+C
 
@@ -25,7 +25,9 @@ from rclpy.parameter import Parameter
 from geometry_msgs.msg import TwistStamped
 from sensor_msgs.msg import LaserScan
 
-DURATION = 150.0      # seconds of driving, SIMULATION time
+from factory_layout import PARK
+
+DURATION = 300.0      # seconds of driving, SIMULATION time (20 x 15 m hall)
 FWD = 0.20            # forward speed, m/s
 TURN = 0.45           # turn rate when avoiding, rad/s
 ACC_LIN = 0.25        # max change of forward speed, m/s per second
@@ -35,9 +37,6 @@ CLEAR_DIST = 1.20     # stop turning once the front is this clear (m)
 SIDE_DIST = 0.50      # also turn away when anything this close to the sides (m)
 FRONT_HALF = math.radians(50)
 WORLD = "my_world"
-PERSON = "person_standing"
-PERSON_HOME = (3.5, 3.5)
-PERSON_AWAY = (20.0, 20.0)
 
 
 def sector_min(ranges, angle_min, inc, a0, a1, rmax):
@@ -69,8 +68,8 @@ def ramp(current, target, max_step):
     return current + max(-max_step, min(max_step, target - current))
 
 
-def set_person(x, y):
-    req = 'name: "%s", position: {x: %.2f, y: %.2f, z: 0.0}' % (PERSON, x, y)
+def set_pose(name, x, y):
+    req = 'name: "%s", position: {x: %.2f, y: %.2f, z: 0.0}' % (name, x, y)
     subprocess.run(["gz", "service", "-s", "/world/%s/set_pose" % WORLD, "--reqtype", "gz.msgs.Pose",
                     "--reptype", "gz.msgs.Boolean", "--timeout", "3000", "--req", req],
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -139,8 +138,9 @@ class AutoMapperV2(Node):
 
 
 def main():
-    print("moving the person out of the room for mapping ...")
-    set_person(*PERSON_AWAY)
+    print("parking people and cart outside the hall for mapping ...")
+    for name, (x, y) in PARK.items():
+        set_pose(name, x, y)
     rclpy.init()
     node = AutoMapperV2()
     try:
@@ -152,8 +152,7 @@ def main():
         node.send(0.0, 0.0)
         node.destroy_node()
         rclpy.shutdown()
-        print("putting the person back ...")
-        set_person(*PERSON_HOME)
+        print("agents stay parked; start tools/sim_agents.py to bring them back")
 
 
 if __name__ == "__main__":
