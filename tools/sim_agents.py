@@ -14,8 +14,8 @@ positions as detections on /fused_objects (the input of the world model).
   - Positions come from simulator ground truth plus NOISE_STD of Gaussian noise. In the full stack
     the camera+LiDAR fusion node publishes the same /fused_objects format.
 
-Gazebo poses are set through the gz set_pose_vector service (one call for all agents) in a background
-thread. If that service is missing, it falls back to one set_pose call per agent.
+Gazebo poses are set with one gz set_pose call per agent (in parallel) in a background thread.
+It logs every 20 s how many pose updates reached Gazebo.
 
 Run (Gazebo up):  python3 ~/autonomy/tools/sim_agents.py
 """
@@ -145,22 +145,21 @@ def pose_text(name, x, y, yaw):
             % (name, x, y, math.sin(yaw / 2), math.cos(yaw / 2)))
 
 
-def gz_call(service, reqtype, req):
-    r = subprocess.run(["gz", "service", "-s", service, "--reqtype", reqtype, "--reptype", "gz.msgs.Boolean",
-                        "--timeout", "1000", "--req", req], capture_output=True, text=True)
-    return r.returncode == 0 and "true" in r.stdout
-
-
 class PoseSender(threading.Thread):
-    """Sends the latest poses to Gazebo as fast as the gz CLI allows (about 5-15 Hz)."""
+    """Sends the latest poses to Gazebo as fast as the gz CLI allows.
+
+    One gz set_pose call per agent, all started in parallel, then wait for all of them.
+    (set_pose_vector exists in Gazebo, but our Pose_V request did not move the models, so it is not used.)
+    """
 
     def __init__(self, logger):
         super().__init__(daemon=True)
         self.logger = logger
         self.lock = threading.Lock()
         self.poses = None
-        self.use_vector = True
         self.running = True
+        self.sent, self.failed = 0, 0
+        self.last_report = time.time()
 
     def set(self, poses):
         with self.lock:
@@ -173,14 +172,19 @@ class PoseSender(threading.Thread):
             if not poses:
                 time.sleep(0.05)
                 continue
-            if self.use_vector:
-                req = ", ".join("pose: {%s}" % pose_text(*p) for p in poses)
-                if gz_call("/world/%s/set_pose_vector" % WORLD, "gz.msgs.Pose_V", req):
-                    continue
-                self.use_vector = False
-                self.logger.warn("set_pose_vector not available, using one set_pose call per agent")
-            for p in poses:
-                gz_call("/world/%s/set_pose" % WORLD, "gz.msgs.Pose", pose_text(*p))
+            procs = [subprocess.Popen(["gz", "service", "-s", "/world/%s/set_pose" % WORLD, "--reqtype", "gz.msgs.Pose",
+                                       "--reptype", "gz.msgs.Boolean", "--timeout", "1000", "--req", pose_text(*p)],
+                                      stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True) for p in poses]
+            for pr in procs:
+                out, _ = pr.communicate()
+                if pr.returncode == 0 and "true" in out:
+                    self.sent += 1
+                else:
+                    self.failed += 1
+            if time.time() - self.last_report > 20.0:
+                self.logger.info("pose updates to Gazebo: %d ok, %d failed (last 20 s)" % (self.sent, self.failed))
+                self.sent, self.failed = 0, 0
+                self.last_report = time.time()
 
 
 class SimAgents(Node):

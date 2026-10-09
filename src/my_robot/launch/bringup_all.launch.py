@@ -54,7 +54,7 @@ def generate_launch_description():
     # --- t=5: SLAM localization ---
     slam = TimerAction(period=5.0, actions=[bash(
         "ros2 launch slam_toolbox localization_launch.py use_sim_time:=true "
-        f"map_file_name:={MAP} scan_topic:=/scan"
+        f"slam_params_file:={HOME}/src/my_robot/config/slam_localization.yaml"
     )])
 
     # --- t=10: Nav2 servers + lifecycle manager ---
