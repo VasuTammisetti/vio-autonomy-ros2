@@ -22,3 +22,4 @@ venv/
 .DS_Store
 *.bak
 *.bak2
+*Zone.Identifier
