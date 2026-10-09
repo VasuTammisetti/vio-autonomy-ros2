@@ -19,11 +19,12 @@ CART_LANE_Y = -3.2     # tugger cart lane, east-west
 CART_LANE_HALF = 0.6
 
 # Patrol stations for the robot: name -> (x, y, yaw)
+# Each station is at least 2 m from every agent route, so the robot can park without a forecast on top of it.
 STATIONS = [
-    ("assembly", -6.5, 4.4, math.pi / 2),
-    ("loading_bay_1", 4.0, -6.0, -math.pi / 2),
+    ("assembly", -6.5, 3.7, math.pi / 2),
+    ("loading_bay_1", 4.4, -6.3, -math.pi / 2),
     ("charging", 8.8, 4.5, 0.0),
-    ("qa_cell", -5.8, -4.9, math.pi),
+    ("qa_cell", -5.6, -5.5, math.pi),
 ]
 
 # Moving agents: name -> kind, speed (m/s), waypoints [(x, y, dwell_s)]. Paths loop back to the first point.
@@ -31,7 +32,7 @@ STATIONS = [
 AGENTS = [
     ("person_standing", "person", 0.7, [(CROSSING_X, 5.6, 2.0), (CROSSING_X, -5.4, 2.0)]),   # uses the zebra crossing
     ("ped_2", "person", 0.6, [(-2.8, 4.6, 3.0), (-2.8, -5.4, 2.5)]),                       # crosses without a crossing
-    ("ped_3", "person", 0.5, [(-8.3, 5.7, 4.0), (-4.8, 5.7, 3.0)]),                        # worker at the assembly benches
+    ("ped_3", "person", 0.5, [(-8.3, 6.0, 4.0), (-4.8, 6.0, 3.0)]),                        # worker at the assembly benches
     ("cart", "cart", 0.5, [(-7.8, CART_LANE_Y, 3.0), (8.6, CART_LANE_Y, 3.0)]),            # tugger cart in its lane
 ]
 

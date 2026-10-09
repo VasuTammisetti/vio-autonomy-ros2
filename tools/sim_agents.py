@@ -6,8 +6,8 @@ positions as detections on /fused_objects (the input of the world model).
   - Routes, speeds and pauses come from tools/factory_layout.py (AGENTS).
   - Everything runs on SIMULATION time, so speeds are right relative to the robot at any Gazebo speed.
   - Agents behave a bit like real ones: they stop when the robot is close in front of them.
-    If the robot is still in the way after WAIT_BEFORE_BACKOFF seconds, the agent steps back along
-    its path until the robot is BACKOFF_CLEAR metres away. That breaks the stand-off
+    If the robot is still in the way after WAIT_BEFORE_BACKOFF seconds, the agent steps away from the
+    robot until it is BACKOFF_CLEAR metres away, then drifts back onto its route. That breaks the stand-off
     "robot waits for person, person waits for robot".
   - People have priority at crossings: the cart waits before a crossing point while a person is near it.
     People stop if the cart is right in front of them (it is already in the crossing and will clear it).
@@ -31,7 +31,7 @@ from rclpy.node import Node
 from rclpy.parameter import Parameter
 from visualization_msgs.msg import Marker, MarkerArray
 
-from factory_layout import AGENTS
+from factory_layout import AGENTS, HALL_X, HALL_Y
 
 WORLD = "my_world"
 RATE_HZ = 10.0
@@ -39,9 +39,13 @@ NOISE_STD = 0.05
 YIELD_ROBOT = {"person": 0.9, "cart": 1.6}  # stop when the robot is this close in front (m)
 AHEAD_COS = 0.3                             # "in front" = within about 70 deg of the walking direction
 PERSON_YIELD_CART = 1.4                     # people stop when the cart is this close in front (m)
+PATH_CLEAR = {"person": 0.7, "cart": 1.0}   # also stop if the robot is this close to where the agent will be
+LOOKAHEAD = 2.0                             # ... within the next LOOKAHEAD seconds of its route (any angle)
 WAIT_BEFORE_BACKOFF = 3.0                   # s blocked by the robot before stepping back
 BACKOFF_CLEAR = 2.0                         # step back until the robot is this far away (m)
 BACKOFF_SPEED = 0.5                         # fraction of normal speed when stepping back
+MAX_STEP_ASIDE = 6.0                        # m: how far an agent steps away from the robot at most
+HALL_MARGIN = 0.6                           # m: stepping aside never goes closer than this to a wall
 ZONE_ENTER = 1.8                            # cart: distance to a crossing point that counts as "in the crossing"
 ZONE_PERSON = 3.0                           # cart waits before a crossing while a person is this close to it
 
@@ -81,7 +85,9 @@ class Agent:
             self.legs.append((x0, y0, x1, y1, math.hypot(x1 - x0, y1 - y0) / speed, dwell))
         self.period = sum(l[4] + l[5] for l in self.legs)
         self.tau = 0.0
+        self.ox, self.oy = 0.0, 0.0   # step-aside offset from the route (used to make room for the robot)
         self.blocked_for = 0.0
+        self.moved = False            # did it advance in the last step (a waiting cart does not block people)
         self.backing = False
         self.x, self.y, self.yaw, self.dir = waypoints[0][0], waypoints[0][1], 0.0, None
         self.update_pose()
@@ -102,7 +108,8 @@ class Agent:
         return x0, y0, 0.0, None
 
     def update_pose(self):
-        self.x, self.y, self.yaw, self.dir = self.pose_at(self.tau)
+        x, y, self.yaw, self.dir = self.pose_at(self.tau)
+        self.x, self.y = x + self.ox, y + self.oy
 
     def ahead(self, ox, oy, lim):
         """True if (ox, oy) is closer than lim and roughly in front of this agent."""
@@ -112,23 +119,47 @@ class Agent:
         d = math.hypot(dx, dy)
         return 1e-6 < d < lim and (dx * self.dir[0] + dy * self.dir[1]) / d > AHEAD_COS
 
+    def robot_on_path(self, robot):
+        """True if the robot stands close to the stretch of route this agent walks in the next LOOKAHEAD s.
+        Catches the robot coming from the side, which the 'in front' cone misses."""
+        if self.dir is None:
+            return False
+        lim = PATH_CLEAR[self.kind]
+        for k in range(1, 9):
+            x, y = self.pose_at(self.tau + LOOKAHEAD * k / 8.0)[:2]
+            if math.hypot(robot[0] - x, robot[1] - y) < lim:
+                return True
+        return False
+
     def step(self, dt, robot, people, carts, zones):
-        """Advance along the route unless something is in the way. robot: (x, y) or None."""
+        """Advance along the route unless something is in the way. robot: (x, y) or None.
+        carts: (x, y, moving) of carts; people only wait for a cart that is actually moving."""
+        self.moved = False
         if self.backing:
-            if robot is None or math.hypot(robot[0] - self.x, robot[1] - self.y) > BACKOFF_CLEAR:
+            d = math.hypot(robot[0] - self.x, robot[1] - self.y) if robot is not None else 99.0
+            if d > BACKOFF_CLEAR:
                 self.backing = False
                 self.blocked_for = 0.0
             else:
-                self.tau = max(0.0, self.tau - dt * BACKOFF_SPEED)
-                self.x, self.y = self.pose_at(self.tau)[:2]   # keep facing forward while stepping back
+                # step straight away from the robot (not back along the route, which can turn towards it)
+                ux, uy = (self.x - robot[0]) / max(d, 1e-6), (self.y - robot[1]) / max(d, 1e-6)
+                step = self.speed * BACKOFF_SPEED * dt
+                nx, ny = self.ox + ux * step, self.oy + uy * step
+                bx, by = self.pose_at(self.tau)[:2]
+                hx, hy = HALL_X / 2 - HALL_MARGIN, HALL_Y / 2 - HALL_MARGIN
+                nx = min(max(bx + nx, -hx), hx) - bx   # stay inside the hall
+                ny = min(max(by + ny, -hy), hy) - by
+                if math.hypot(nx, ny) <= MAX_STEP_ASIDE:
+                    self.ox, self.oy = nx, ny
+                self.update_pose()
                 return
-        if robot is not None and self.ahead(robot[0], robot[1], YIELD_ROBOT[self.kind]):
+        if robot is not None and (self.ahead(robot[0], robot[1], YIELD_ROBOT[self.kind]) or self.robot_on_path(robot)):
             self.blocked_for += dt
             if self.blocked_for > WAIT_BEFORE_BACKOFF:
                 self.backing = True
             return
         self.blocked_for = 0.0
-        if self.kind == "person" and any(self.ahead(cx, cy, PERSON_YIELD_CART) for cx, cy in carts):
+        if self.kind == "person" and any(mv and self.ahead(cx, cy, PERSON_YIELD_CART) for cx, cy, mv in carts):
             return
         if self.kind == "cart":
             nx, ny = self.pose_at(self.tau + dt)[:2]
@@ -137,6 +168,9 @@ class Agent:
                 if entering and any(math.hypot(px - zx, py - zy) < ZONE_PERSON for px, py in people):
                     return
         self.tau += dt
+        self.moved = True
+        k = max(0.0, 1.0 - 0.5 * dt)   # drift back onto the route over a few seconds
+        self.ox, self.oy = self.ox * k, self.oy * k
         self.update_pose()
 
 
@@ -211,7 +245,7 @@ class SimAgents(Node):
         dt = 0.0 if self.last is None else min(max(now - self.last, 0.0), 0.5)
         self.last = now
         people = [(a.x, a.y) for a in self.agents if a.kind == "person"]
-        carts = [(a.x, a.y) for a in self.agents if a.kind == "cart"]
+        carts = [(a.x, a.y, a.moved) for a in self.agents if a.kind == "cart"]
         for a in self.agents:
             a.step(dt, self.robot, people, carts, self.zones)
         self.sender.set([(a.name, a.x, a.y, a.yaw) for a in self.agents])
