@@ -1,0 +1,12 @@
+rgbd_odometry:
+  ros__parameters:
+    use_sim_time: true
+    frame_id: base_footprint
+    odom_frame_id: vo_odom
+    publish_tf: false
+    approx_sync: true
+    approx_sync_max_interval: 0.02
+    wait_for_transform: 0.2
+    Reg/Force3DoF: "true"
+    Odom/Strategy: "0"
+    Vis/MinInliers: "15"

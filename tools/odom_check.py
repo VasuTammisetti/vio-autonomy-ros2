@@ -6,6 +6,7 @@ The robot spins 2 full turns in place (commanded), stops, then we compare the to
   wheels   /diff_drive_controller/odom  (wheel encoders)
   imu      /imu angular velocity, integrated
   ekf      /odometry/filtered           (what SLAM and Nav2 use)
+  vo       /vo/odom                     (rtabmap rgbd_odometry, if running)
   lidar    the LiDAR scan before vs after: the shift that best lines the two scans up gives the
            real rotation (1 deg resolution), independent of any odometry
 Then it drives 2 m straight and reports the distance from wheels and EKF.
@@ -48,7 +49,9 @@ class OdomCheck(Node):
     def __init__(self):
         super().__init__("odom_check", parameter_overrides=[Parameter("use_sim_time", Parameter.Type.BOOL, True)])
         self.pub = self.create_publisher(TwistStamped, "/diff_drive_controller/cmd_vel", 10)
-        self.wheel, self.ekf = Unwrap(), Unwrap()
+        self.wheel, self.ekf, self.vo = Unwrap(), Unwrap(), Unwrap()
+        self.vo_xy = None
+        self.vo_lost = 0
         self.imu_total, self.imu_t = 0.0, None
         self.wheel_xy = self.ekf_xy = None
         self.scan = None
@@ -56,6 +59,7 @@ class OdomCheck(Node):
         self.recording = False
         self.create_subscription(Odometry, "/diff_drive_controller/odom", self.on_wheel, 20)
         self.create_subscription(Odometry, "/odometry/filtered", self.on_ekf, 20)
+        self.create_subscription(Odometry, "/vo/odom", self.on_vo, 20)
         self.create_subscription(Imu, "/imu", self.on_imu, 50)
         self.create_subscription(LaserScan, "/scan", lambda m: setattr(self, "scan", m), 10)
 
@@ -69,6 +73,14 @@ class OdomCheck(Node):
     def on_ekf(self, m):
         self.ekf.add(yaw_of(m.pose.pose.orientation))
         self.ekf_xy = (m.pose.pose.position.x, m.pose.pose.position.y)
+
+    def on_vo(self, m):
+        # rtabmap publishes an all-zero covariance pose with 9999 variance when tracking is lost
+        if m.pose.covariance[0] >= 9999:
+            self.vo_lost += 1
+            return
+        self.vo.add(yaw_of(m.pose.pose.orientation))
+        self.vo_xy = (m.pose.pose.position.x, m.pose.pose.position.y)
 
     def on_imu(self, m):
         t = m.header.stamp.sec + m.header.stamp.nanosec * 1e-9
@@ -131,12 +143,15 @@ def main():
     n.settle(1.0)
     scan0 = scan_array(n.scan)
     w0, e0, i0 = n.wheel.total, n.ekf.total, n.imu_total
+    v0 = n.vo.total
+    print("visual odometry (/vo/odom): %s" % ("receiving" if n.vo.last is not None else "not running, VO rows will be skipped"))
     cmd = 2 * math.pi * SPIN_TURNS
     print("spinning %d turns at %.1f rad/s ..." % (SPIN_TURNS, SPIN_RATE))
     n.run_for(cmd / SPIN_RATE, 0.0, SPIN_RATE)
     n.settle(2.0)
     scan1 = scan_array(n.scan)
     wheel, ekf, imu = n.wheel.total - w0, n.ekf.total - e0, n.imu_total - i0
+    vo = n.vo.total - v0 if n.vo.last is not None else None
     lid_res, fit = scan_rotation(scan0, scan1, n.scan.angle_increment)
     # LiDAR gives rotation modulo 360 deg: pick the full-turn count closest to the IMU total
     turns = round((imu - lid_res) / (2 * math.pi))
@@ -145,12 +160,13 @@ def main():
     print("\nSPIN TEST  (total rotation, degrees; lidar = reference, +/- 1 deg)")
     print("  commanded  %8.1f" % d(cmd))
     print("  lidar      %8.1f   (scan match error %.3f m)" % (d(lidar), fit))
-    for name, val in (("wheels", wheel), ("imu", imu), ("ekf", ekf)):
+    rows = [("wheels", wheel), ("imu", imu), ("ekf", ekf)] + ([("vo", vo)] if vo is not None else [])
+    for name, val in rows:
         print("  %-9s  %8.1f   error vs lidar %+6.1f" % (name, d(val), d(val - lidar)))
     if n.twist_w:
         print("  wheel twist reports %.3f rad/s while turning (commanded %.3f)" % (np.mean(n.twist_w), SPIN_RATE))
 
-    w_xy0, e_xy0 = n.wheel_xy, n.ekf_xy
+    w_xy0, e_xy0, v_xy0 = n.wheel_xy, n.ekf_xy, n.vo_xy
     print("\ndriving %.1f m straight ..." % FWD_DIST)
     n.run_for(FWD_DIST / FWD_SPEED, FWD_SPEED, 0.0)
     n.settle(2.0)
@@ -159,6 +175,10 @@ def main():
     print("  commanded  %.2f" % FWD_DIST)
     print("  wheels     %.2f" % dist(w_xy0, n.wheel_xy))
     print("  ekf        %.2f" % dist(e_xy0, n.ekf_xy))
+    if v_xy0 is not None and n.vo_xy is not None:
+        print("  vo         %.2f" % dist(v_xy0, n.vo_xy))
+    if n.vo.last is not None:
+        print("VO lost tracking %d times during the test" % n.vo_lost)
     if n.twist_v:
         print("  wheel twist reports %.3f m/s while driving (commanded %.3f)" % (np.mean(n.twist_v), FWD_SPEED))
     n.destroy_node()

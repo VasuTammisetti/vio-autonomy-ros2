@@ -67,7 +67,19 @@ def generate_launch_description():
         parameters=[ekf_config, {'use_sim_time': True}],
     )
 
+    # RGB-D camera topics for visual odometry (rtabmap rgbd_odometry)
+    camera_bridge = Node(
+        package='ros_gz_bridge', executable='parameter_bridge', name='camera_bridge',
+        arguments=[
+            '/camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+        ],
+        parameters=[{'use_sim_time': True}],
+        output='screen',
+    )
+
     return LaunchDescription([
-        gz_resources, gazebo, robot_state_publisher, spawn, bridge,
+        gz_resources, gazebo, robot_state_publisher, spawn, bridge, camera_bridge,
         jsb_spawner, diff_spawner, ekf,
     ])

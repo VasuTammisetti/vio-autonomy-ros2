@@ -9,7 +9,8 @@
   <xacro:property name="wheel_separation" value="0.30"/>
   <xacro:property name="caster_radius"   value="${wheel_radius}"/>
 
-  <material name="blue"><color rgba="0.2 0.3 0.8 1.0"/></material>
+  <material name="blue"><color rgba="0.0 0.35 1.0 1.0"/></material>
+  <material name="orange"><color rgba="1.0 0.5 0.0 1.0"/></material>
   <material name="black"><color rgba="0.1 0.1 0.1 1.0"/></material>
   <material name="grey"><color rgba="0.5 0.5 0.5 1.0"/></material>
 
@@ -99,7 +100,7 @@
   </joint>
 
   <link name="lidar_link">
-    <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry><material name="grey"/></visual>
+    <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry><material name="orange"/></visual>
     <collision><geometry><cylinder radius="0.04" length="0.04"/></geometry></collision>
     <inertial>
       <mass value="0.1"/>
@@ -126,6 +127,14 @@
     <parent link="base_link"/>
     <child link="camera_link"/>
     <origin xyz="${base_length/2} 0 ${base_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Optical frame for the RGB-D images (z forward, x right, y down) -->
+  <link name="camera_optical_link"/>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
   </joint>
 
   <link name="imu_link">
@@ -200,12 +209,12 @@
   </gazebo>
 
   <gazebo reference="camera_link">
-    <sensor name="camera" type="camera">
-      <topic>image</topic>
-      <gz_frame_id>camera_link</gz_frame_id>
-      <update_rate>15</update_rate>
+    <sensor name="camera" type="rgbd_camera">
+      <topic>camera</topic>
+      <gz_frame_id>camera_optical_link</gz_frame_id>
+      <update_rate>20</update_rate>
       <always_on>1</always_on>
-      <visualize>true</visualize>
+      <visualize>false</visualize>
       <camera>
         <horizontal_fov>1.047</horizontal_fov>
         <image>
@@ -215,8 +224,14 @@
         </image>
         <clip>
           <near>0.1</near>
-          <far>100</far>
+          <far>20</far>
         </clip>
+        <depth_camera>
+          <clip>
+            <near>0.1</near>
+            <far>10</far>
+          </clip>
+        </depth_camera>
       </camera>
     </sensor>
   </gazebo>
