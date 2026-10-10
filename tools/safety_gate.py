@@ -13,11 +13,15 @@ close the nearest tracked person is (from /world_model/tracks) to the robot
 State machine:
   AUTONOMOUS  (person far)            -> pass command through unchanged
   DEGRADED    (person within WARN)    -> pass but cap speed (slow)
-  SAFE_STOP   (person within STOP)    -> zero the command (hold position)
-  HOLD        (person within CRITICAL)-> zero command + require human approval
-                                         via `ros2 service call /safety/approve
-                                         std_srvs/srv/Trigger`. Stays HOLD until
-                                         approved AND person no longer critical.
+  SAFE_STOP   (person within STOP)    -> no motion towards the person; turning and moving away still allowed
+  HOLD        (person within CRITICAL)-> like SAFE_STOP (no approach). How HOLD ends depends on REQUIRE_APPROVAL:
+                                         False (default, fully autonomous): HOLD releases by itself
+                                           once the nearest person/cart has been outside the critical
+                                           radius for HOLD_CLEAR_TIME seconds.
+                                         True (supervised mode): also needs a human approval via
+                                           `ros2 service call /safety/approve std_srvs/srv/Trigger`.
+
+"Person" here means the nearest tracked agent (person or cart) from the world model.
 
 Publishes:
   /cmd_vel_safe      (geometry_msgs/Twist)   gated command for the bridge
@@ -44,6 +48,9 @@ WARN_RADIUS = 1.5        # closer than this -> DEGRADED (slow)
 STOP_RADIUS = 0.9        # closer than this -> SAFE_STOP
 CRITICAL_RADIUS = 0.5    # closer than this -> HOLD (needs human approval)
 DEGRADED_SPEED_SCALE = 0.4  # speed multiplier in DEGRADED
+ESCAPE_SPEED_SCALE = 0.5    # SAFE_STOP / HOLD still allow motions that do not approach the person, at this scale
+REQUIRE_APPROVAL = False    # True = supervised mode: a human must approve leaving HOLD
+HOLD_CLEAR_TIME = 1.0       # s the critical zone must stay clear before HOLD releases
 # ---------------------------------------------------------------------------
 
 
@@ -54,7 +61,9 @@ class SafetyGate(Node):
             parameter_overrides=[Parameter("use_sim_time", Parameter.Type.BOOL, True)],
         )
         self.state = "AUTONOMOUS"
-        self.person_xy = None          # nearest tracked person (map frame)
+        self.tracks = []               # tracked agents (map frame)
+        self.person_xy = None          # nearest tracked agent (map frame)
+        self.clear_since = None        # sim time the critical zone became clear (HOLD release)
         self.approved = False          # one-shot human approval flag
         self.last_cmd = Twist()
 
@@ -71,33 +80,51 @@ class SafetyGate(Node):
 
         self.create_timer(0.1, self.tick)   # 10 Hz state + marker publish
         self.get_logger().info(
-            "safety_gate up: /cmd_vel -> [gate] -> /cmd_vel_safe | "
-            "approve with: ros2 service call /safety/approve std_srvs/srv/Trigger"
+            "safety_gate up: /cmd_vel -> [gate] -> /cmd_vel_safe | mode: %s"
+            % ("SUPERVISED (approve with: ros2 service call /safety/approve std_srvs/srv/Trigger)"
+               if REQUIRE_APPROVAL else "AUTONOMOUS (HOLD releases when the zone is clear)")
         )
 
     def on_tracks(self, msg: MarkerArray):
-        # nearest CUBE track position (map frame)
-        nearest = None
-        for m in msg.markers:
-            if m.ns != "track":
-                continue
-            p = (m.pose.position.x, m.pose.position.y)
-            if nearest is None:
-                nearest = p
-            # keep the first; distance compared in tick() against robot
-        self.person_xy = nearest
+        # all tracked agents (CUBE markers in ns 'track'); the nearest one is picked in nearest_distance()
+        self.tracks = [(m.pose.position.x, m.pose.position.y) for m in msg.markers if m.ns == "track"]
 
-    def robot_xy(self):
+    def robot_pose(self):
         try:
             tf = self.tf_buffer.lookup_transform("map", "base_footprint", rclpy.time.Time())
-            return (tf.transform.translation.x, tf.transform.translation.y)
+            q = tf.transform.rotation
+            yaw = math.atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z))
+            return (tf.transform.translation.x, tf.transform.translation.y, yaw)
         except Exception:
             return None
 
+    def robot_xy(self):
+        p = self.robot_pose()
+        return None if p is None else (p[0], p[1])
+
+    def escape_cmd(self):
+        """In SAFE_STOP / HOLD: let through only motion that does not bring the robot closer to the nearest person.
+        Turning on the spot is always allowed; driving is allowed if it points away from the person
+        (e.g. backing off when someone is in front, or moving on when someone is behind or beside).
+        Without this, robot and person could wait for each other forever."""
+        out = Twist()
+        p = self.robot_pose()
+        if p is None or self.person_xy is None:
+            return out
+        bearing = math.atan2(self.person_xy[1] - p[1], self.person_xy[0] - p[0]) - p[2]
+        towards = math.cos(bearing)            # +1 person straight ahead, -1 straight behind
+        v = self.last_cmd.linear.x
+        if v * towards <= 0.0 or abs(towards) < 0.3:   # moving away from, or past, the person
+            out.linear.x = v * ESCAPE_SPEED_SCALE
+        out.angular.z = self.last_cmd.angular.z * ESCAPE_SPEED_SCALE
+        return out
+
     def nearest_distance(self):
         r = self.robot_xy()
-        if r is None or self.person_xy is None:
+        if r is None or not self.tracks:
+            self.person_xy = None
             return None
+        self.person_xy = min(self.tracks, key=lambda p: math.hypot(r[0] - p[0], r[1] - p[1]))
         return math.hypot(r[0] - self.person_xy[0], r[1] - self.person_xy[1])
 
     def on_approve(self, request, response):
@@ -125,11 +152,21 @@ class SafetyGate(Node):
         dist = self.nearest_distance()
         new_state = self.compute_state(dist)
 
-        # HOLD latch: once in HOLD, stay until approved AND person no longer critical
+        # HOLD latch: stay in HOLD until the critical zone has been clear for HOLD_CLEAR_TIME
+        # (and, in supervised mode, a human has approved)
         if self.state == "HOLD":
-            if self.approved and (dist is None or dist >= CRITICAL_RADIUS):
+            now = self.get_clock().now().nanoseconds * 1e-9
+            clear = dist is None or dist >= CRITICAL_RADIUS
+            if not clear:
+                self.clear_since = None
+            elif self.clear_since is None:
+                self.clear_since = now
+            released = clear and now - self.clear_since >= HOLD_CLEAR_TIME
+            if released and (self.approved or not REQUIRE_APPROVAL):
                 self.approved = False           # consume approval
+                self.clear_since = None
                 new_state = self.compute_state(dist)
+                self.get_logger().info("HOLD released (%s)" % ("approved" if REQUIRE_APPROVAL else "zone clear"))
             else:
                 new_state = "HOLD"
 
@@ -143,8 +180,8 @@ class SafetyGate(Node):
             out.linear.x = self.last_cmd.linear.x * DEGRADED_SPEED_SCALE
             out.linear.y = self.last_cmd.linear.y * DEGRADED_SPEED_SCALE
             out.angular.z = self.last_cmd.angular.z * DEGRADED_SPEED_SCALE
-        else:  # SAFE_STOP or HOLD -> zero
-            out = Twist()
+        else:  # SAFE_STOP or HOLD -> only motion that does not approach the person
+            out = self.escape_cmd()
 
         self.cmd_pub.publish(out)
         self.state_pub.publish(String(data=self.state))

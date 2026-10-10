@@ -1,7 +1,7 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import ExecuteProcess, TimerAction
+from launch.actions import ExecuteProcess, TimerAction, AppendEnvironmentVariable
 from launch.substitutions import Command
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -14,6 +14,8 @@ def generate_launch_description():
     ekf_config = os.path.join(pkg, 'config', 'ekf.yaml')
 
     robot_description = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
+
+    gz_resources = AppendEnvironmentVariable('GZ_SIM_RESOURCE_PATH', os.path.join(pkg, 'worlds'))
 
     gazebo = ExecuteProcess(
         cmd=['gz', 'sim', '-r', '-v', '4', world_file],
@@ -65,7 +67,19 @@ def generate_launch_description():
         parameters=[ekf_config, {'use_sim_time': True}],
     )
 
+    # RGB-D camera topics for visual odometry (rtabmap rgbd_odometry)
+    camera_bridge = Node(
+        package='ros_gz_bridge', executable='parameter_bridge', name='camera_bridge',
+        arguments=[
+            '/camera/image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+            '/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+        ],
+        parameters=[{'use_sim_time': True}],
+        output='screen',
+    )
+
     return LaunchDescription([
-        gazebo, robot_state_publisher, spawn, bridge,
+        gz_resources, gazebo, robot_state_publisher, spawn, bridge, camera_bridge,
         jsb_spawner, diff_spawner, ekf,
     ])

@@ -9,7 +9,8 @@
   <xacro:property name="wheel_separation" value="0.30"/>
   <xacro:property name="caster_radius"   value="${wheel_radius}"/>
 
-  <material name="blue"><color rgba="0.2 0.3 0.8 1.0"/></material>
+  <material name="blue"><color rgba="0.0 0.35 1.0 1.0"/></material>
+  <material name="orange"><color rgba="1.0 0.5 0.0 1.0"/></material>
   <material name="black"><color rgba="0.1 0.1 0.1 1.0"/></material>
   <material name="grey"><color rgba="0.5 0.5 0.5 1.0"/></material>
 
@@ -81,8 +82,25 @@
     <origin xyz="${base_length/2 - caster_radius} 0 0" rpy="0 0 0"/>
   </joint>
 
+  <!-- Rear caster: with only the front caster the robot tipped back about 19 deg on every start
+       (measured with tools/tilt_check.py), pointing the LiDAR into the floor. -->
+  <link name="caster_rear">
+    <visual><geometry><sphere radius="${caster_radius}"/></geometry><material name="grey"/></visual>
+    <collision><geometry><sphere radius="${caster_radius}"/></geometry></collision>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.00005" ixy="0" ixz="0" iyy="0.00005" iyz="0" izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="caster_rear_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_rear"/>
+    <origin xyz="${-(base_length/2 - caster_radius)} 0 0" rpy="0 0 0"/>
+  </joint>
+
   <link name="lidar_link">
-    <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry><material name="grey"/></visual>
+    <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry><material name="orange"/></visual>
     <collision><geometry><cylinder radius="0.04" length="0.04"/></geometry></collision>
     <inertial>
       <mass value="0.1"/>
@@ -109,6 +127,14 @@
     <parent link="base_link"/>
     <child link="camera_link"/>
     <origin xyz="${base_length/2} 0 ${base_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Optical frame for the RGB-D images (z forward, x right, y down) -->
+  <link name="camera_optical_link"/>
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
   </joint>
 
   <link name="imu_link">
@@ -170,7 +196,7 @@
         </scan>
         <range>
           <min>0.12</min>
-          <max>10.0</max>
+          <max>20.0</max>
           <resolution>0.01</resolution>
         </range>
         <noise>
@@ -183,12 +209,12 @@
   </gazebo>
 
   <gazebo reference="camera_link">
-    <sensor name="camera" type="camera">
-      <topic>image</topic>
-      <gz_frame_id>camera_link</gz_frame_id>
-      <update_rate>15</update_rate>
+    <sensor name="camera" type="rgbd_camera">
+      <topic>camera</topic>
+      <gz_frame_id>camera_optical_link</gz_frame_id>
+      <update_rate>20</update_rate>
       <always_on>1</always_on>
-      <visualize>true</visualize>
+      <visualize>false</visualize>
       <camera>
         <horizontal_fov>1.047</horizontal_fov>
         <image>
@@ -198,8 +224,14 @@
         </image>
         <clip>
           <near>0.1</near>
-          <far>100</far>
+          <far>20</far>
         </clip>
+        <depth_camera>
+          <clip>
+            <near>0.1</near>
+            <far>10</far>
+          </clip>
+        </depth_camera>
       </camera>
     </sensor>
   </gazebo>
@@ -225,9 +257,19 @@
     </sensor>
   </gazebo>
 
+  <!-- Casters are fixed spheres: almost no friction so they slide like swivel casters. -->
+  <gazebo reference="caster">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+  </gazebo>
+  <gazebo reference="caster_rear">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+  </gazebo>
+
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>/home/vasu0/slam_ws/install/my_robot/share/my_robot/config/controllers.yaml</parameters>
+      <parameters>$(find my_robot)/config/controllers.yaml</parameters>
     </plugin>
   </gazebo>
 
