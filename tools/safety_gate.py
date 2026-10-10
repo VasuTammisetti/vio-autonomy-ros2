@@ -13,8 +13,8 @@ close the nearest tracked person is (from /world_model/tracks) to the robot
 State machine:
   AUTONOMOUS  (person far)            -> pass command through unchanged
   DEGRADED    (person within WARN)    -> pass but cap speed (slow)
-  SAFE_STOP   (person within STOP)    -> zero the command (hold position)
-  HOLD        (person within CRITICAL)-> zero command. How HOLD ends depends on REQUIRE_APPROVAL:
+  SAFE_STOP   (person within STOP)    -> no motion towards the person; turning and moving away still allowed
+  HOLD        (person within CRITICAL)-> like SAFE_STOP (no approach). How HOLD ends depends on REQUIRE_APPROVAL:
                                          False (default, fully autonomous): HOLD releases by itself
                                            once the nearest person/cart has been outside the critical
                                            radius for HOLD_CLEAR_TIME seconds.
@@ -48,6 +48,7 @@ WARN_RADIUS = 1.5        # closer than this -> DEGRADED (slow)
 STOP_RADIUS = 0.9        # closer than this -> SAFE_STOP
 CRITICAL_RADIUS = 0.5    # closer than this -> HOLD (needs human approval)
 DEGRADED_SPEED_SCALE = 0.4  # speed multiplier in DEGRADED
+ESCAPE_SPEED_SCALE = 0.5    # SAFE_STOP / HOLD still allow motions that do not approach the person, at this scale
 REQUIRE_APPROVAL = False    # True = supervised mode: a human must approve leaving HOLD
 HOLD_CLEAR_TIME = 1.0       # s the critical zone must stay clear before HOLD releases
 # ---------------------------------------------------------------------------
@@ -88,12 +89,35 @@ class SafetyGate(Node):
         # all tracked agents (CUBE markers in ns 'track'); the nearest one is picked in nearest_distance()
         self.tracks = [(m.pose.position.x, m.pose.position.y) for m in msg.markers if m.ns == "track"]
 
-    def robot_xy(self):
+    def robot_pose(self):
         try:
             tf = self.tf_buffer.lookup_transform("map", "base_footprint", rclpy.time.Time())
-            return (tf.transform.translation.x, tf.transform.translation.y)
+            q = tf.transform.rotation
+            yaw = math.atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z))
+            return (tf.transform.translation.x, tf.transform.translation.y, yaw)
         except Exception:
             return None
+
+    def robot_xy(self):
+        p = self.robot_pose()
+        return None if p is None else (p[0], p[1])
+
+    def escape_cmd(self):
+        """In SAFE_STOP / HOLD: let through only motion that does not bring the robot closer to the nearest person.
+        Turning on the spot is always allowed; driving is allowed if it points away from the person
+        (e.g. backing off when someone is in front, or moving on when someone is behind or beside).
+        Without this, robot and person could wait for each other forever."""
+        out = Twist()
+        p = self.robot_pose()
+        if p is None or self.person_xy is None:
+            return out
+        bearing = math.atan2(self.person_xy[1] - p[1], self.person_xy[0] - p[0]) - p[2]
+        towards = math.cos(bearing)            # +1 person straight ahead, -1 straight behind
+        v = self.last_cmd.linear.x
+        if v * towards <= 0.0 or abs(towards) < 0.3:   # moving away from, or past, the person
+            out.linear.x = v * ESCAPE_SPEED_SCALE
+        out.angular.z = self.last_cmd.angular.z * ESCAPE_SPEED_SCALE
+        return out
 
     def nearest_distance(self):
         r = self.robot_xy()
@@ -156,8 +180,8 @@ class SafetyGate(Node):
             out.linear.x = self.last_cmd.linear.x * DEGRADED_SPEED_SCALE
             out.linear.y = self.last_cmd.linear.y * DEGRADED_SPEED_SCALE
             out.angular.z = self.last_cmd.angular.z * DEGRADED_SPEED_SCALE
-        else:  # SAFE_STOP or HOLD -> zero
-            out = Twist()
+        else:  # SAFE_STOP or HOLD -> only motion that does not approach the person
+            out = self.escape_cmd()
 
         self.cmd_pub.publish(out)
         self.state_pub.publish(String(data=self.state))

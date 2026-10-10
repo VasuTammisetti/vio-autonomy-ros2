@@ -48,6 +48,8 @@ MAX_STEP_ASIDE = 6.0                        # m: how far an agent steps away fro
 HALL_MARGIN = 0.6                           # m: stepping aside never goes closer than this to a wall
 ZONE_ENTER = 1.8                            # cart: distance to a crossing point that counts as "in the crossing"
 ZONE_PERSON = 3.0                           # cart waits before a crossing while a person is this close to it
+ZONE_WAIT_MAX = 8.0                         # ... but after this long it goes if nobody is right at the crossing
+ZONE_PERSON_HARD = 1.2                      # (m) never enter while a person is this close to the crossing point
 
 
 def crossing_points(agents):
@@ -88,6 +90,7 @@ class Agent:
         self.ox, self.oy = 0.0, 0.0   # step-aside offset from the route (used to make room for the robot)
         self.blocked_for = 0.0
         self.moved = False            # did it advance in the last step (a waiting cart does not block people)
+        self.zone_wait = 0.0          # how long the cart has waited before a crossing
         self.backing = False
         self.x, self.y, self.yaw, self.dir = waypoints[0][0], waypoints[0][1], 0.0, None
         self.update_pose()
@@ -165,8 +168,15 @@ class Agent:
             nx, ny = self.pose_at(self.tau + dt)[:2]
             for zx, zy in zones:   # do not enter a crossing while a person is near it
                 entering = math.hypot(self.x - zx, self.y - zy) > ZONE_ENTER >= math.hypot(nx - zx, ny - zy)
-                if entering and any(math.hypot(px - zx, py - zy) < ZONE_PERSON for px, py in people):
+                if not entering:
+                    continue
+                near = [math.hypot(px - zx, py - zy) for px, py in people]
+                hard = any(d < ZONE_PERSON_HARD for d in near)
+                soft = any(d < ZONE_PERSON for d in near)
+                if hard or (soft and self.zone_wait < ZONE_WAIT_MAX):
+                    self.zone_wait += dt   # waiting at the crossing (gives up waiting after ZONE_WAIT_MAX)
                     return
+            self.zone_wait = 0.0
         self.tau += dt
         self.moved = True
         k = max(0.0, 1.0 - 0.5 * dt)   # drift back onto the route over a few seconds
