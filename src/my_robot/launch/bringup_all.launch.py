@@ -48,6 +48,7 @@ def generate_launch_description():
     use_pred = LaunchConfiguration("use_predictions")
     use_agents = LaunchConfiguration("use_agents")
     use_mission = LaunchConfiguration("use_mission")
+    use_vo = LaunchConfiguration("use_vo")
 
     # --- t=0: Gazebo + EKF (via existing launch) ---
     gazebo = bash(
@@ -60,6 +61,15 @@ def generate_launch_description():
         "ros2 launch slam_toolbox localization_launch.py use_sim_time:=true "
         f"slam_params_file:={SLAM_PARAMS}"
     )])
+
+    # --- t=8: visual odometry (rtabmap rgbd_odometry) + relay into the EKF ---
+    vo = TimerAction(period=8.0, actions=[
+        bash("ros2 run rtabmap_odom rgbd_odometry --ros-args "
+             f"--params-file {HOME}/src/my_robot/config/vo.yaml "
+             "-r rgb/image:=/camera/image -r depth/image:=/camera/depth_image "
+             "-r rgb/camera_info:=/camera/camera_info -r odom:=/vo/odom"),
+        bash(f"python3 {TOOLS}/vo_relay.py"),
+    ], condition=IfCondition(use_vo))
 
     # --- t=10: Nav2 servers + lifecycle manager ---
     nav2_servers = TimerAction(period=10.0, actions=[
@@ -114,5 +124,6 @@ def generate_launch_description():
         DeclareLaunchArgument("use_predictions", default_value="true"),
         DeclareLaunchArgument("use_agents", default_value="true"),
         DeclareLaunchArgument("use_mission", default_value="false"),
-        gazebo, slam, nav2_servers, nav2_manager, py_nodes, agents, pred, mission, rviz,
+        DeclareLaunchArgument("use_vo", default_value="true"),
+        gazebo, slam, vo, nav2_servers, nav2_manager, py_nodes, agents, pred, mission, rviz,
     ])
