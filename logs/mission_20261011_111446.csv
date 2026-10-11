@@ -1,0 +1,9 @@
+lap,station,result,attempts,sim_time_s,recoveries,min_dist_to_agent_m,t_degraded_s,t_safe_stop_s,t_hold_s
+1,assembly,SUCCEEDED,1,37.7,0,0.78,4.9,1.5,0.0
+1,loading_bay_1,SUCCEEDED,1,62.8,0,0.91,3.7,0.0,0.0
+1,charging,SUCCEEDED,3,49.3,0,1.60,0.0,0.0,0.0
+1,qa_cell,SUCCEEDED,3,74.5,0,0.93,5.4,0.0,0.0
+2,assembly,SUCCEEDED,2,42.1,0,1.38,3.2,0.0,0.0
+2,loading_bay_1,FAILED,3,26.9,0,1.42,1.3,0.0,0.0
+2,charging,SUCCEEDED,2,54.7,0,0.90,4.5,0.0,0.0
+2,qa_cell,SUCCEEDED,1,83.3,0,0.89,17.9,0.2,0.0
