@@ -17,6 +17,8 @@ positions as detections on /fused_objects (the input of the world model).
 Gazebo poses are set with one gz set_pose call per agent (in parallel) in a background thread.
 It logs every 20 s how many pose updates reached Gazebo.
 
+The robot position comes from TF map -> base_footprint (LiDAR-corrected), not from odometry.
+
 Run (Gazebo up):  python3 ~/autonomy/tools/sim_agents.py
 """
 import math
@@ -26,6 +28,7 @@ import threading
 import time
 
 import rclpy
+import tf2_ros
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from rclpy.parameter import Parameter
@@ -49,6 +52,8 @@ HALL_MARGIN = 0.6                           # m: stepping aside never goes close
 ZONE_ENTER = 1.8                            # cart: distance to a crossing point that counts as "in the crossing"
 ZONE_PERSON = 3.0                           # cart waits before a crossing while a person is this close to it
 ZONE_WAIT_MAX = 8.0                         # ... but after this long it goes if nobody is right at the crossing
+MIN_ROUND_S = 0.1                           # s (wall time) between two rounds of pose updates to Gazebo
+MIN_MOVE = 0.01                             # m: an agent that moved less than this is not re-sent
 ZONE_PERSON_HARD = 1.2                      # (m) never enter while a person is this close to the crossing point
 
 
@@ -190,9 +195,11 @@ def pose_text(name, x, y, yaw):
 
 
 class PoseSender(threading.Thread):
-    """Sends the latest poses to Gazebo as fast as the gz CLI allows.
+    """Sends the latest poses to Gazebo.
 
     One gz set_pose call per agent, all started in parallel, then wait for all of them.
+    Each call starts a gz process, so agents that did not move (waiting, dwelling) are skipped and
+    rounds are at least MIN_ROUND_S apart. Without that, the calls alone used about one CPU core.
     (set_pose_vector exists in Gazebo, but our Pose_V request did not move the models, so it is not used.)
     """
 
@@ -204,6 +211,7 @@ class PoseSender(threading.Thread):
         self.running = True
         self.sent, self.failed = 0, 0
         self.last_report = time.time()
+        self.last_sent = {}
 
     def set(self, poses):
         with self.lock:
@@ -213,22 +221,29 @@ class PoseSender(threading.Thread):
         while self.running:
             with self.lock:
                 poses = self.poses
+            t_round = time.time()
+            if poses:
+                poses = [p for p in poses if p[0] not in self.last_sent
+                         or math.hypot(p[1] - self.last_sent[p[0]][1], p[2] - self.last_sent[p[0]][2]) > MIN_MOVE
+                         or abs(p[3] - self.last_sent[p[0]][3]) > 0.02]
             if not poses:
                 time.sleep(0.05)
                 continue
             procs = [subprocess.Popen(["gz", "service", "-s", "/world/%s/set_pose" % WORLD, "--reqtype", "gz.msgs.Pose",
                                        "--reptype", "gz.msgs.Boolean", "--timeout", "1000", "--req", pose_text(*p)],
                                       stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True) for p in poses]
-            for pr in procs:
+            for p, pr in zip(poses, procs):
                 out, _ = pr.communicate()
                 if pr.returncode == 0 and "true" in out:
                     self.sent += 1
+                    self.last_sent[p[0]] = p
                 else:
                     self.failed += 1
             if time.time() - self.last_report > 20.0:
                 self.logger.info("pose updates to Gazebo: %d ok, %d failed (last 20 s)" % (self.sent, self.failed))
                 self.sent, self.failed = 0, 0
                 self.last_report = time.time()
+            time.sleep(max(0.0, MIN_ROUND_S - (time.time() - t_round)))
 
 
 class SimAgents(Node):
@@ -236,7 +251,10 @@ class SimAgents(Node):
         super().__init__("sim_agents", parameter_overrides=[Parameter("use_sim_time", Parameter.Type.BOOL, True)])
         self.agents = [Agent(*a) for a in AGENTS]
         self.zones = crossing_points(self.agents)
-        self.robot = None
+        self.robot = None          # robot position in the map frame (what the agents react to)
+        self.robot_odom = None     # fallback: EKF position in the odom frame
+        self.tf_buffer = tf2_ros.Buffer()
+        self.tf_listener = tf2_ros.TransformListener(self.tf_buffer, self)
         self.create_subscription(Odometry, "/odometry/filtered", self.on_odom, 10)
         self.pub = self.create_publisher(MarkerArray, "/fused_objects", 10)
         self.sender = PoseSender(self.get_logger())
@@ -247,13 +265,23 @@ class SimAgents(Node):
                                % ", ".join("%s (%.1f m/s)" % (a.name, a.speed) for a in self.agents))
 
     def on_odom(self, msg):
-        # odom starts at the robot spawn = world origin; drift over a run is small for this purpose
-        self.robot = (msg.pose.pose.position.x, msg.pose.pose.position.y)
+        self.robot_odom = (msg.pose.pose.position.x, msg.pose.pose.position.y)
+
+    def robot_in_map(self):
+        """Robot position in the map frame, the same frame the agents walk in.
+        The odom frame drifts away from the map over a run, and agents that judge the robot by odom
+        can walk into it. Falls back to odom only until TF is up."""
+        try:
+            t = self.tf_buffer.lookup_transform("map", "base_footprint", rclpy.time.Time())
+            return (t.transform.translation.x, t.transform.translation.y)
+        except Exception:
+            return self.robot_odom
 
     def tick(self):
         now = self.get_clock().now().nanoseconds * 1e-9
         dt = 0.0 if self.last is None else min(max(now - self.last, 0.0), 0.5)
         self.last = now
+        self.robot = self.robot_in_map()
         people = [(a.x, a.y) for a in self.agents if a.kind == "person"]
         carts = [(a.x, a.y, a.moved) for a in self.agents if a.kind == "cart"]
         for a in self.agents:

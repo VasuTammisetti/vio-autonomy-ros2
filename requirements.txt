@@ -1,0 +1,4 @@
+# Python packages the tools use outside ROS itself (versions as shipped with Ubuntu 24.04).
+# On the robot and in the CI test job these come from apt; this file is for pip-audit.
+numpy==1.26.4
+PyYAML==6.0.1
